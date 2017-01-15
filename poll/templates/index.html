@@ -1,0 +1,20 @@
+<head>
+<style>
+h1{
+   color : red;
+   font-size : 20px
+}
+
+</style>
+</head>
+<body>
+<h1>投票系统</h1>
+<div>
+<form method="post" action="/login_action/">
+<input name="username" type="text" placeholder="username"><br>
+<input name="password" type="password" placeholder="password"><br>
+{{error}}
+<button id="btn" type="submit">登录</button>
+</form>
+</div>
+</body>
