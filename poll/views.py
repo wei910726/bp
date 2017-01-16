@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from poll.models import Event
+from poll.models import Event,Guest
 
 
 # Create your views here.
@@ -33,11 +33,35 @@ def event_manage(request):
 
 
 @login_required
+def guest_manage(request):
+    guest_list = Guest.objects.all()
+    username = request.session.get('user', '')
+    return render(request, 'event.html', {'user': username, 'guests': guest_list})
+
+
+@login_required
 def search_name(request):
     username = request.session.get('user', '')
     search_name = request.GET.get('name', '')
     event_list = Event.objects.filter(name__contains=search_name)
     return render(request, 'event.html', {'user': 'username', 'events': event_list})
+
+
+@login_required
+def search_gname(request):
+    username = request.session.get('user', '')
+    search_gname = request.GET.get('realname', '')
+    guest_list = Guest.objects.filter(realname__contains=search_gname)
+    return render(request, 'guest.html', {'user': 'username', 'guests': guest_list})
+
+
+
+
+
+
+
+
+
 
 
 @login_required
