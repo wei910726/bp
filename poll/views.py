@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-from poll.models import Event,Guest
+from poll.models import Event, Guest
 
 
 # Create your views here.
@@ -36,7 +36,7 @@ def event_manage(request):
 def guest_manage(request):
     guest_list = Guest.objects.all()
     username = request.session.get('user', '')
-    return render(request, 'event.html', {'user': username, 'guests': guest_list})
+    return render(request, 'guest.html', {'user': username, 'guests': guest_list})
 
 
 @login_required

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
+    {% load bootstrap3 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <title>Guest Manage</title>
 </head>
 <body role="document">
@@ -12,7 +14,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/event_manage/"></a>发布会</li>
+                <li><a href="/event_manage/">发布会</a></li>
                 <li class="active"><a href="#" >嘉宾</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -48,7 +50,7 @@
             </tr>
             </thead>
             <tbody>
-            {{% for guest in guests %}}
+            {%   for guest in guests   %}
             <tr>
                 <td>{{ guest.id }}</td>
                 <td>{{ guest.realname }}</td>
@@ -57,7 +59,7 @@
                 <td>{{ guest.sign  }}</td>
                 <td>{{ guest.event }}</td>
             </tr>
-            {{% end for %}}
+            {% endfor %}
             </tbody>
         </table>
     </div>
