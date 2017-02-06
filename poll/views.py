@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from poll.models import Event, Guest
 
 
@@ -36,7 +37,15 @@ def event_manage(request):
 def guest_manage(request):
     guest_list = Guest.objects.all()
     username = request.session.get('user', '')
-    return render(request, 'guest.html', {'user': username, 'guests': guest_list})
+    paginator = Paginator(guest_list, 2)
+    page = request.GET.get('page')
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+    return render(request, 'guest.html', {'user': username, 'guests': contacts})
 
 
 @login_required
