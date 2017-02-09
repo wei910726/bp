@@ -94,5 +94,5 @@ def sign_index_action(request, event_id):
 @login_required
 def logout(request):
     auth.logout(request)
-    response = HttpResponseRedirect('/')
+    response = HttpResponseRedirect('/logout/')
     return response
