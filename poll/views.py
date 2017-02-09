@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -64,15 +64,35 @@ def search_gname(request):
     return render(request, 'guest.html', {'user': username, 'guests': guest_list})
 
 
+@login_required
+def sign_index(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    return render(request, 'sign_index.html', {'event': event})
 
 
+@login_required
+def sign_index_action(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    phone = request.POST.get('phone', '')
 
+    result = Guest.objects.filter(phone=phone)
+    if not result:
+        return render(request, 'sign_index.html', {'event': event, 'hint': 'phone error'})
 
+    result = Guest.objects.filter(phone=phone, event_id=event_id)
+    if not result:
+        return render(request, 'sign_index.html', {'event': event, 'hint': 'phone error or event_id error'})
 
-
-
+    result = Guest.objects.get(phone=phone)
+    if result.sign:
+        return render(request, 'sign_index.html', {'event': event, 'hint': "user has sign in."})
+    else:
+        Guest.objects.filter(phone=phone).update(sign='1')
+        return render(request, 'sign_index.html', {'event':event, 'hint': 'sign in success!', 'guest': result})
 
 
 @login_required
 def logout(request):
-    return render(request, 'index.html', {'logout': '退出成功！'})
+    auth.logout(request)
+    response = HttpResponseRedirect('/')
+    return response
