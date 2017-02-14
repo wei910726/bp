@@ -119,7 +119,7 @@ def get_guest_list(request):
     if eid == '':
         return JsonResponse({'status': 10021, 'message': 'eid cannot be empty'})
 
-    if eid != '' and phone != '':
+    if eid != '' and phone == '':
         datas = []
         results = Guest.objects.filter(event_id=eid)
         if results:
