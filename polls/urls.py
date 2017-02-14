@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from poll import views
 
@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^guest_manage/$', views.guest_manage),
     url(r'^sign_index/(?P<event_id>[0-9]+)/$', views.sign_index),
     url(r'^sign_index_action/(?P<event_id>[0-9]+)/$', views.sign_index_action),
+    url(r'^api/',include('poll.urls', namespace='poll')),
     url(r'^logout/$', views.logout),
 ]
